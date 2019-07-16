@@ -24,3 +24,4 @@ pipeline:
     when:
       branch: master
       event: push
+
