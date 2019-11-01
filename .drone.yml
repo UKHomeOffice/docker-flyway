@@ -6,8 +6,19 @@ pipeline:
   build:
     image: quay.io/ukhomeofficedigital/drone-docker
     commands:
-      - docker build -t refdata:$${DRONE_COMMIT_SHA} .
+      - docker build -t docker-flyway:$${DRONE_COMMIT_SHA} .
     when:
+      event: push
+
+  vulnerability-scan:
+    image: quay.io/ukhomeofficedigital/anchore-submission:latest
+    dockerfile: Dockerfile
+    image_name: docker-flyway:${DRONE_COMMIT_SHA}
+    local_image: true
+    tolerate: low
+    fail_on_detection: false
+    when:
+      branch: master
       event: push
 
   image_to_quay:
@@ -18,9 +29,7 @@ pipeline:
     registry: quay.io
     repo: quay.io/ukhomeofficedigital/docker-flyway
     tags:
-      - ${DRONE_BUILD_NUMBER}
       - ${DRONE_COMMIT_SHA}
-      - latest
     when:
       branch: master
       event: push
