@@ -1,6 +1,6 @@
 FROM openjdk:8-jre-alpine
 
-ENV FLYWAY_VERSION 5.2.4
+ENV FLYWAY_VERSION 6.3.3
 
 RUN apk update && \
     apk upgrade && \
