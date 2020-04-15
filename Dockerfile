@@ -4,7 +4,7 @@ ENV FLYWAY_VERSION 6.3.3
 
 RUN apk update && \
     apk upgrade && \
-    apk add --update postgresql-client nss python py-pip ca-certificates openssh gettext curl git bash openssl && \
+    apk add --update postgresql-client nss python py-pip ca-certificates openssh gettext curl git bash openssl gnupg && \
     mkdir /source /flyway /schemas /docker /root/.ssh && \
     cd /flyway && \
     wget https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/${FLYWAY_VERSION}/flyway-commandline-${FLYWAY_VERSION}.tar.gz && \
@@ -19,6 +19,9 @@ RUN apk update && \
     pip install --upgrade pip && \
     pip install yasha && \
     rm -rf /var/cache/apk/*
+
+COPY mssql.sh .
+RUN ./mssql.sh
 
 ADD create_ssh_key.sh /usr/bin/create_ssh_key.sh
 RUN chmod +x /usr/bin/create_ssh_key.sh
