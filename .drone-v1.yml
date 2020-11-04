@@ -8,8 +8,7 @@ platform:
   arch: amd64
 
 workspace:
-  base: /build
-  path: src/github.com/ukhomeoffice/docker-flyway
+  path: /build/src
 
 steps:
 - name: build
